@@ -5,13 +5,6 @@ Nothing defined here. The Hugo project that uses this theme can override Bootstr
 assets/scss/_styles_project.scss
 
 */
-h1,
-h2,
-h3,
-h4,
-h5 {
-  font-family: Dosis;
-}
 
 .privacy-link {
   color: #fff;
@@ -115,4 +108,60 @@ pre {
     font-style: italic;
     text-decoration: underline;
   }
+}
+
+// Horusec
+
+body {
+  font-size: 15px;
+  color: #242a31;
+}
+
+.td-sidebar-nav a.active {
+  color: rgb(213, 59, 25);
+}
+
+.td-sidebar-nav .td-sidebar-link__page {
+  color: rgb(59, 69, 78);
+}
+
+.td-sidebar-nav__section-title a {
+  color: rgb(102, 111, 119);
+}
+
+.td-sidebar-nav .td-sidebar-link__page,
+.td-sidebar-nav__section-title a {
+  font-weight: 600;
+}
+
+.td-content .lead {
+  color: rgb(116, 129, 141);
+}
+
+.td-content strong {
+  color: #3b454e;
+}
+
+.td-content a {
+  font-style: normal;
+  color: rgb(213, 59, 25);
+  text-decoration: none;
+
+  strong {
+    color: inherit;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.td-toc #TableOfContents a {
+  &:hover {
+    color: rgb(213, 59, 25);
+  }
+}
+
+.td-content > blockquote {
+  border-color: rgba(213, 59, 25, 0.8);
 }
