@@ -1,6 +1,6 @@
 {{ $cover := .HasShortcode "blocks/cover" }}
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark {{ if $cover}} td-navbar-cover {{ end }}flex-column flex-md-row td-navbar">
-  <a href="{{ .Site.Home.RelPermalink }}">
+  <a href="{{ .Site.Home.RelPermalink }}" title="Go to homepage">
     <span class="navbar-logo">
       {{ if .Site.Params.ui.navbar_logo }}
         {{ with resources.Get .Site.Params.logoName }}

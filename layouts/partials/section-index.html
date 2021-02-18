@@ -21,9 +21,9 @@
         {{ range $pages }}
             {{ if eq .Parent $parent }}
                 <div class="entry">
-                    <h5>
+                    <h2>
                         <a href="{{ .RelPermalink }}">{{- .Title -}}</a>
-                    </h5>
+                    </h2>
                     <p>{{ .Description | markdownify }}</p>
                 </div>
             {{ end }}
