@@ -6,6 +6,13 @@
     $(document).ready(function () {
         const $searchInput = $('.td-search-input');
 
+        const handleSearch = (event) => {
+          render($(event.target));
+
+            // Hide keyboard on mobile browser
+          $searchInput.blur();
+        }
+
         //
         // Options for popover
         //
@@ -21,12 +28,8 @@
         // Register handler
         //
 
-        $searchInput.on('change', (event) => {
-            render($(event.target));
-
-            // Hide keyboard on mobile browser
-            $searchInput.blur();
-        });
+        $searchInput.on('change', handleSearch);
+        $searchInput.keyup(_.debounce(handleSearch , 500));
 
         // Prevent reloading page by enter key on sidebar search.
         $searchInput.closest('form').on('submit', () => {
