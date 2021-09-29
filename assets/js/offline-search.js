@@ -42,10 +42,19 @@
 
         let idx = null; // Lunr index
         const resultDetails = new Map(); // Will hold the data for the search results (titles and summaries)
+        const FORUM_OPEN_URI = 'https://forum.zup.com.br';
+
+        const getHorusecItemsFromOpenSourceForum = async () => {
+          const { topics } = await $.ajax(`${FORUM_OPEN_URI}/search.json?q=horusec`);
+
+          return topics;
+        };
 
         // Set up for an Ajax call to request the JSON data file that is created by Hugo's build process
         $.ajax($searchInput.data('offline-search-index-json-src')).then(
-            (data) => {
+            async (data) => {
+                const resultsFromForum = await getHorusecItemsFromOpenSourceForum();
+
                 idx = lunr(function () {
                     this.ref('ref');
                     this.field('title', { boost: 2 });
@@ -59,11 +68,28 @@
                             excerpt: doc.excerpt,
                         });
                     });
+
+                    if (resultsFromForum) {
+                      resultsFromForum.forEach((topic) => {
+                        this.add({
+                          title: topic.title,
+                          excerpt: topic.fancy_title,
+                          body: topic.fancy_title,
+                          ref: `${FORUM_OPEN_URI}/t/${topic.slug}`,
+                          forum: true
+                        });
+          
+                        resultDetails.set(`${FORUM_OPEN_URI}/t/${topic.slug}`, {
+                          title: topic.title,
+                          excerpt: topic.fancy_title,
+                        });
+                      });
+                    }
                 });
 
                 $searchInput.trigger('change');
             }
-        );
+        );      
 
         const render = ($targetSearchInput) => {
             // Dispose the previous result
@@ -160,15 +186,26 @@
                         $('<small>').addClass('d-block text-muted').text(r.ref)
                     );
 
-                    $entry.append(
-                        $('<a>')
+                    const link = href.includes(FORUM_OPEN_URI) ? (
+                      $('<a>')
+                            .addClass('d-block')
+                            .css({
+                                fontSize: '1.2rem',
+                            })
+                            .attr('href', href.replace(`/${FORUM_OPEN_URI}`, FORUM_OPEN_URI))
+                            .attr('target', "_blank")
+                            .text(doc.title)
+                    ) : (
+                      $('<a>')
                             .addClass('d-block')
                             .css({
                                 fontSize: '1.2rem',
                             })
                             .attr('href', href)
                             .text(doc.title)
-                    );
+                    )
+
+                    $entry.append(link);
 
                     $entry.append($('<p>').text(doc.excerpt));
 
